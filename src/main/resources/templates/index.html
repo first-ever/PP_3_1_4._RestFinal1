@@ -5,7 +5,11 @@
 </head>
 <body>
 <h1>Welcome to Index PAGE!</h1>
+<a href="javascript: document.logoutForm.submit()" role="menuitem"> Logout</a>
 
+<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+    <input hidden type="submit" value="Sign Out"/>
+</form>
 
 </body>
 </html>
