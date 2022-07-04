@@ -36,9 +36,11 @@
     <br>
     <table border="1">
         <tr>
-            <th th:width="70">UserId</th>
-            <th th:width="140">Username</th>
-            <th th:width="180">Email</th>
+            <th th:width="50">UserId</th>
+            <th th:width="100">Username</th>
+            <th th:width="150">Password</th>
+            <th th:width="150">Email</th>
+            <th th:width="70">Role</th>
             <th th:width="70">Edit</th>
             <th th:width="70">Delete</th>
         </tr>
@@ -46,7 +48,9 @@
 
             <td><a th:href="@{'/' + ${users.id}}" th:utext="${users.id}">id</a></td>
             <td th:utext="${users.username}">username</td>
+            <td th:utext="${users.password}">password</td>
             <td th:utext="${users.email}">Email</td>
+            <td th:utext="${users.roles}">Role</td>
             <td>
                 <form th:action="@{'/admin/edit/' + ${users.id}}">
                     <input type="submit" class="buttonEdit" value="Edit"/>

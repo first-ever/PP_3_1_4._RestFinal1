@@ -31,69 +31,69 @@
 </head>
 <body>
 <div align ="center">
-<h1>Edit user</h1>
-<form action="#" th:method="post" th:action="@{/admin/edit}" th:object="${user}">
-    <table>
-        <tr>
-            <td>
-                <label for="id">id</label>
-                <input readonly type="number" th:field="*{id}" id="id" placeholder="id">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="username">Enter username</label>
-                <input type="text" th:field="*{username}" id="username" required/>
-            </td>
-        </tr>
-        <br>
-        <br>
-        <tr>
-            <td>
-                <label for="password">Enter password</label>
-                <input type="text" th:field="*{password}" id="password" required/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="email">Enter email</label>
-                <input type="text" th:field="*{email}" id="email" required/>
-            </td>
-        </tr>
-<!--        <tr>-->
-<!--            <th : th:object="${role}">-->
-<!--            <td>-->
-<!--                <label for="name">Enter role</label>-->
-<!--                <input type="text" th:field="*{name}" id="name" required/>-->
-<!--            </td>-->
-<!--            </th>-->
-<!--        </tr>-->
+    <h1>Edit user</h1>
+    <form action="#" th:method="post" th:action="@{/admin/edit}" th:object="${user}">
+        <table>
+            <tr>
+                <td>
+                    <label for="id">id</label>
+                    <input readonly type="number" th:field="*{id}" id="id" placeholder="id">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="username">Enter username</label>
+                    <input type="text" th:field="*{username}" id="username" required/>
+                </td>
+            </tr>
+            <br>
+            <br>
+            <tr>
+                <td>
+                    <label for="password">Enter password</label>
+                    <input type="text" th:field="*{password}" id="password" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="email">Enter email</label>
+                    <input type="text" th:field="*{email}" id="email" required/>
+                </td>
+            </tr>
+            <!--        <tr>-->
+            <!--            <th : th:object="${role}">-->
+            <!--            <td>-->
+            <!--                <label for="name">Enter role</label>-->
+            <!--                <input type="text" th:field="*{name}" id="name" required/>-->
+            <!--            </td>-->
+            <!--            </th>-->
+            <!--        </tr>-->
 
-        <br>
-        <tr>
-            <td>
-                <input type="submit" class="buttonEdit" value="Edit user"
-                       onclick="window.location.href = '/admin';"
-                />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label>Roles:
-                    <select size="2" multiple name="role" required="required">
-                        <option selected="selected" value="1">USER</option>
-                        <option value="2">ADMIN</option>
-                    </select>
-                </label>
-            </td>
-        </tr>
-    </table>
-    <a href="javascript: document.logoutForm.submit()" role="menuitem"> Logout</a>
+            <br>
+            <tr>
+                <td>
+                    <input type="submit" class="buttonEdit" value="Edit user"
+                           onclick="window.location.href = '/admin';"
+                    />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Roles:
+                        <select size="2" multiple name="role" required="required">
+                            <option selected="selected" value="1">USER</option>
+                            <option value="2">ADMIN</option>
+                        </select>
+                    </label>
+                </td>
+            </tr>
+        </table>
+        <a href="javascript: document.logoutForm.submit()" role="menuitem"> Logout</a>
 
-    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-        <input hidden type="submit" value="Sign Out"/>
+        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+            <input hidden type="submit" value="Sign Out"/>
+        </form>
     </form>
-</form>
 </div>
 </body>
 </html>

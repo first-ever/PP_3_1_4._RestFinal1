@@ -23,14 +23,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserService userService;
 
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+    private UserDetailsService userDetailsService;
 
     @Autowired
-    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserService userService, UserDetailsService userDetailsService) {
         this.successUserHandler = successUserHandler;
+        this.userService = userService;
+        this.userDetailsService = userDetailsService;
     }
 
         @Override
@@ -52,15 +51,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() {
+    public DaoAuthenticationProvider addDaoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setPasswordEncoder(PasswordEncoder());
         authenticationProvider.setUserDetailsService(userService);
         return authenticationProvider;
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder PasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(PasswordEncoder());
+    }
+
 }

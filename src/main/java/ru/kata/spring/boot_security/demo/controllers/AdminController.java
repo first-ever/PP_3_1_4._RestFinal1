@@ -1,27 +1,39 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 @Controller
 public class AdminController {
 
     private UserService userService;
 
+    private RoleService roleService;
+    private PasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
-    public void setUserService(UserService userService) {
+    public AdminController(UserService userService, RoleService roleService, PasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
+        this.roleService = roleService;
+        this.bCryptPasswordEncoder=bCryptPasswordEncoder;
     }
 
     @GetMapping("/")
-    public String homePage() {
+    public String goToHomePage() {
         return "home";
     }
 
@@ -38,7 +50,10 @@ public class AdminController {
     }
 
     @PostMapping("/admin/create")
-    public String createUser(User user){
+    public String createUser(@RequestParam("role") ArrayList<Long> roles,
+                             @ModelAttribute("user") @Valid User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setRoles(roleService.findByIdRoles(roles));
         userService.saveUser(user);
         return "redirect:/admin";
     }
@@ -56,7 +71,10 @@ public class AdminController {
     }
 
     @PostMapping("/admin/edit")
-    public String update (User user) {
+    public String update (@RequestParam("role") ArrayList<Long> roles,
+            @ModelAttribute("user") @Valid User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setRoles(roleService.findByIdRoles(roles));
         userService.saveUser(user);
         return "redirect:/admin";
     }
