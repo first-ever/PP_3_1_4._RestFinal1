@@ -11,6 +11,6 @@ import java.util.Set;
 
 @Repository
 public interface UserDao extends JpaRepository<User, Long> {
-//    @Query("SELECT u from User u join fetch u.roles where u.username = :username")
+
     User findByUsername(String username);
 }
