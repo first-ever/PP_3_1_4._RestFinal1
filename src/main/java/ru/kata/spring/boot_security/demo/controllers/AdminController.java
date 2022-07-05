@@ -71,7 +71,7 @@ public class AdminController {
     }
 
     @PostMapping("/admin/edit")
-    public String update (@RequestParam("role") ArrayList<Long> roles,
+    public String updateUser (@RequestParam("role") ArrayList<Long> roles,
             @ModelAttribute("user") @Valid User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(roleService.findByIdRoles(roles));

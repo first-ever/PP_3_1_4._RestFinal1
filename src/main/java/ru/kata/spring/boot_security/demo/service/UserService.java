@@ -18,6 +18,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UserService implements UserDetailsService {
 
     private UserDao userDao;
@@ -32,30 +33,27 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found" + username);
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),
-                user.getPassword(),mapRolesToAuthorities(user.getRoles())
-                );
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
-        private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
-        }
+    }
 
-        public void saveUser(User user) {
+    public void saveUser(User user) {
         userDao.save(user);
-        }
+    }
 
-        public List<User> findAll() {
+    public List<User> findAll() {
         return userDao.findAll();
-        }
+    }
 
-       public void deleteById(Long id) {
+    public void deleteById(Long id) {
         userDao.deleteById(id);
     }
 
