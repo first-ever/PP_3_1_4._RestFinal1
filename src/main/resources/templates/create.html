@@ -53,15 +53,6 @@
                 </td>
             </tr>
             <tr>
-            </tr>
-            <tr>
-                <td>
-                    <form th:action="@{'/admin'}">
-                        <input type="submit" class="buttonAdd" value="Add user"/>
-                    </form>
-                </td>
-            </tr>
-            <tr>
                 <td>
                     <label>Roles:
                         <select size="2" multiple name="role" required="required">
@@ -69,6 +60,13 @@
                             <option value="2">ADMIN</option>
                         </select>
                     </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <form th:action="@{'/admin'}">
+                        <input type="submit" class="buttonAdd" value="Add user"/>
+                    </form>
                 </td>
             </tr>
         </table>

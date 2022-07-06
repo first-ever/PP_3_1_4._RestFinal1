@@ -60,23 +60,6 @@
                     <input type="text" th:field="*{email}" id="email" required/>
                 </td>
             </tr>
-            <!--        <tr>-->
-            <!--            <th : th:object="${role}">-->
-            <!--            <td>-->
-            <!--                <label for="name">Enter role</label>-->
-            <!--                <input type="text" th:field="*{name}" id="name" required/>-->
-            <!--            </td>-->
-            <!--            </th>-->
-            <!--        </tr>-->
-
-            <br>
-            <tr>
-                <td>
-                    <input type="submit" class="buttonEdit" value="Edit user"
-                           onclick="window.location.href = '/admin';"
-                    />
-                </td>
-            </tr>
             <tr>
                 <td>
                     <label>Roles:
@@ -87,13 +70,20 @@
                     </label>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <input type="submit" class="buttonEdit" value="Edit user"
+                           onclick="window.location.href = '/admin';"
+                    />
+                </td>
+            </tr>
         </table>
+    </form>
         <a href="javascript: document.logoutForm.submit()" role="menuitem"> Logout</a>
 
         <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
             <input hidden type="submit" value="Sign Out"/>
         </form>
-    </form>
 </div>
 </body>
 </html>

@@ -52,11 +52,10 @@ public class AdminController {
     @PostMapping("/admin/create")
     public String createUser(@RequestParam("role") ArrayList<Long> roles,
                              @ModelAttribute("user") @Valid User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(roleService.findByIdRoles(roles));
-        userService.saveUser(user);
+        userService.registerNewAccount(user,roles);
         return "redirect:/admin";
     }
+
     @RequestMapping(value = "/admin/delete/{id}",method = RequestMethod.POST)
     public String deleteUser(@PathVariable("id")Long id) {
         userService.deleteById(id);
@@ -73,9 +72,7 @@ public class AdminController {
     @PostMapping("/admin/edit")
     public String updateUser (@RequestParam("role") ArrayList<Long> roles,
             @ModelAttribute("user") @Valid User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(roleService.findByIdRoles(roles));
-        userService.saveUser(user);
+        userService.editAccount(user,roles);
         return "redirect:/admin";
     }
 
