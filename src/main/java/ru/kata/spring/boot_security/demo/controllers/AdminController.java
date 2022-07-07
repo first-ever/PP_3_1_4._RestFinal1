@@ -23,13 +23,13 @@ public class AdminController {
     private UserService userService;
 
     private RoleService roleService;
-    private PasswordEncoder bCryptPasswordEncoder;
+
 
     @Autowired
-    public AdminController(UserService userService, RoleService roleService, PasswordEncoder bCryptPasswordEncoder) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.bCryptPasswordEncoder=bCryptPasswordEncoder;
+
     }
 
     @GetMapping("/")
@@ -45,14 +45,14 @@ public class AdminController {
     }
 
     @GetMapping("/admin/create")
-    public String createUserForm(User user) {
+    public String createUserForm(@ModelAttribute("user") User user,Model model) {
+        model.addAttribute("roles",roleService.getAllRoles());
         return "create";
     }
 
     @PostMapping("/admin/create")
-    public String createUser(@RequestParam("role") ArrayList<Long> roles,
-                             @ModelAttribute("user") @Valid User user) {
-        userService.registerNewAccount(user,roles);
+    public String createUser(@ModelAttribute("user") User user) {
+        userService.registerNewAccount(user);
         return "redirect:/admin";
     }
 
@@ -66,13 +66,13 @@ public class AdminController {
     public String updateUserForm(@PathVariable("id")Long id, Model model) {
         User user = userService.findById(id);
         model.addAttribute("user",user);
+        model.addAttribute("roles",roleService.getAllRoles());
         return "/edit";
     }
 
     @PostMapping("/admin/edit")
-    public String updateUser (@RequestParam("role") ArrayList<Long> roles,
-            @ModelAttribute("user") @Valid User user) {
-        userService.editAccount(user,roles);
+    public String updateUser (@ModelAttribute("user") User user) {
+        userService.editAccount(user);
         return "redirect:/admin";
     }
 

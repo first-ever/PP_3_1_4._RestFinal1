@@ -54,10 +54,11 @@
             </tr>
             <tr>
                 <td>
-                    <label>Roles:
-                        <select size="2" multiple name="role" required="required">
-                            <option selected="selected" value="1">USER</option>
-                            <option value="2">ADMIN</option>
+                    <label>Role:
+                        <select name="roles" id="roles" multiple="multiple" size="2">
+                            <div th:each="role : ${roles}">
+                                <option th:text="${role.getName()}" th:value="${role.getId()}"/>
+                            </div>
                         </select>
                     </label>
                 </td>

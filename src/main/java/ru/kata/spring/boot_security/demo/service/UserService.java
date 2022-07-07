@@ -20,20 +20,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class UserService implements UserDetailsService {
-
     private UserDao userDao;
-
     private PasswordEncoder passwordEncoder;
-
-    private RoleService roleService;
-
     @Autowired
-    public UserService(UserDao userDao, @Lazy PasswordEncoder passwordEncoder, RoleService roleService) {
+    public UserService(UserDao userDao, @Lazy PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
-        this.roleService = roleService;
     }
 
     public User findByUsername(String username) {
@@ -41,6 +34,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, NullPointerException {
         User user = findByUsername(username);
         if (user == null) {
@@ -56,10 +50,6 @@ public class UserService implements UserDetailsService {
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
     }
 
-    public void saveUser(User user) {
-        userDao.save(user);
-    }
-
     public List<User> findAll() {
         return userDao.findAll();
     }
@@ -72,22 +62,17 @@ public class UserService implements UserDetailsService {
         return userDao.getOne(id);
     }
 
-    public User registerNewAccount(User user ,List<Long> roles) {
+    @Transactional
+    public User registerNewAccount(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(roleService.findByIdRoles(roles));
         return userDao.save(user);
     }
-    public User editAccount(User user ,List<Long> roles) {
-        if (userDao.findByUsername(user.getUsername()) == null ||
-                !user.getPassword().equals(userDao.findByUsername(user.getUsername()).getPassword())) {
-            if (userDao.findByUsername(user.getUsername()) == null) {
-                userDao.save(user);
-            } else {
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
-                userDao.save(user);
-            }
+
+    @Transactional
+    public User editAccount(User user) {
+        if (!user.getPassword().equals(userDao.getById(user.getId()).getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-        user.setRoles(roleService.findByIdRoles(roles));
         return userDao.save(user);
     }
 }
