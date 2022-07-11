@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -31,49 +32,30 @@ public class AdminController {
         this.roleService = roleService;
 
     }
-
-    @GetMapping("/")
-    public String goToHomePage() {
-        return "home";
-    }
-
     @GetMapping("/admin")
-    public String findAll(Model model) {
-        List<User> users = userService.findAll();
-        model.addAttribute("users",users);
-        return "admin";
+    public String adminPage(Model model, Authentication auth) {
+        User user = (User) auth.getPrincipal();
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("user", user);
+        model.addAttribute("roles", roleService.getAllRoles());
+        return "adminPage";
     }
 
-    @GetMapping("/admin/create")
-    public String createUserForm(@ModelAttribute("user") User user,Model model) {
-        model.addAttribute("roles",roleService.getAllRoles());
-        return "create";
-    }
-
-    @PostMapping("/admin/create")
-    public String createUser(@ModelAttribute("user") User user) {
+    @PostMapping("/admin/new")
+    public String createUser(@ModelAttribute("newUser") User user) {
         userService.registerNewAccount(user);
         return "redirect:/admin";
     }
 
-    @RequestMapping(value = "/admin/delete/{id}",method = RequestMethod.POST)
-    public String deleteUser(@PathVariable("id")Long id) {
-        userService.deleteById(id);
-        return "redirect:/admin";
-    }
-
-    @GetMapping("/admin/edit/{id}")
-    public String updateUserForm(@PathVariable("id")Long id, Model model) {
-        User user = userService.findById(id);
-        model.addAttribute("user",user);
-        model.addAttribute("roles",roleService.getAllRoles());
-        return "/edit";
-    }
-
-    @PostMapping("/admin/edit")
-    public String updateUser (@ModelAttribute("user") User user) {
+    @PostMapping("/admin/edit/{id}")
+    public String editUser(@ModelAttribute("editUser") User user) {
         userService.editAccount(user);
         return "redirect:/admin";
     }
 
+    @PostMapping("/admin/delete/{id}")
+    public String deleteUser(@PathVariable("id") long id) {
+        userService.deleteById(id);
+        return "redirect:/admin";
+    }
 }

@@ -14,6 +14,7 @@ import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -40,26 +41,16 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found" + username);
         }
-        return new org.springframework.security.core.userdetails.
-                User(user.getUsername(),
-                user.getPassword(),
-                mapRolesToAuthorities(user.getRoles()));
-    }
+        return userDao.findByUsername(username);
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
     }
-
     public List<User> findAll() {
         return userDao.findAll();
     }
 
+    @Transactional
     public void deleteById(Long id) {
         userDao.deleteById(id);
-    }
-
-    public User findById(Long id) {
-        return userDao.getOne(id);
     }
 
     @Transactional
@@ -70,6 +61,9 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public User editAccount(User user) {
+        if (user.getPassword() == null) {
+            user.setPassword(userDao.getById(user.getId()).getPassword());
+        }
         if (!user.getPassword().equals(userDao.getById(user.getId()).getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
