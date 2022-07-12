@@ -25,13 +25,13 @@ public class AdminController {
 
     private RoleService roleService;
 
-
     @Autowired
     public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
 
     }
+
     @GetMapping("/admin")
     public String adminPage(Model model, Authentication auth) {
         User user = (User) auth.getPrincipal();

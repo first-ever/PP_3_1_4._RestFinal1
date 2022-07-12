@@ -20,9 +20,9 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public String getUserPage (Model model, Authentication auth) {
+    public String getUserPage(Model model, Authentication auth) {
         User user = (User) auth.getPrincipal();
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "userPage";
     }
 

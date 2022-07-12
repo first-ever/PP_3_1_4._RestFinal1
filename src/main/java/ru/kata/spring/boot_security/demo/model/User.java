@@ -44,7 +44,8 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public User() {}
+    public User() {
+    }
 
     public User(String username, String password, Collection<? extends GrantedAuthority> mapRolesToAuthorities) {
     }
@@ -98,7 +99,4 @@ public class User implements UserDetails {
         return true;
     }
 
-    public Long getId() {
-        return id;
-    }
 }

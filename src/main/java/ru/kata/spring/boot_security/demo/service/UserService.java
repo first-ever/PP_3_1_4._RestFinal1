@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
     private UserDao userDao;
     private PasswordEncoder passwordEncoder;
+
     @Autowired
     public UserService(UserDao userDao, @Lazy PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
@@ -35,7 +36,6 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, NullPointerException {
         User user = findByUsername(username);
         if (user == null) {
@@ -44,6 +44,7 @@ public class UserService implements UserDetailsService {
         return userDao.findByUsername(username);
 
     }
+
     public List<User> findAll() {
         return userDao.findAll();
     }
