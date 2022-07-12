@@ -47,9 +47,6 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String password, Collection<? extends GrantedAuthority> mapRolesToAuthorities) {
-    }
-
     @Override
     public String toString() {
         return "User{" +
