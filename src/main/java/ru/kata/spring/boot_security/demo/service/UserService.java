@@ -49,6 +49,10 @@ public class UserService implements UserDetailsService {
         return userDao.findAll();
     }
 
+    public User getUser(long id) {
+        return userDao.findById(id).get();
+    }
+
     @Transactional
     public void deleteById(Long id) {
         userDao.deleteById(id);
@@ -61,13 +65,10 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public User editAccount(User user) {
-        if (user.getPassword() == null) {
-            user.setPassword(userDao.getById(user.getId()).getPassword());
-        }
+    public void editAccount(User user) {
         if (!user.getPassword().equals(userDao.getById(user.getId()).getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-        return userDao.save(user);
+        userDao.save(user);
     }
 }
