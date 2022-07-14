@@ -1,25 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" class="h-100"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Page</title>
+    <title>Admin panel</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 </head>
 <body>
 
-<!--HEADER-->
-
+<!--Шапка страницы-->
 <header>
     <div class="container-fluid" style="padding: 0">
         <div class="row">
             <div class="col-12">
                 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+                    <!-- Navbar content -->
                     <div class="collapse navbar-collapse" id="user">
                         <ul class="navbar-nav mr-auto">
                             <a class="navbar-brand font-weight-bold" id="headerUsername"></a>
@@ -38,10 +37,12 @@
     </div>
 </header>
 
+<!--Основной контент страницы-->
+
 <div class="container-fluid">
     <div class="row">
 
-<!--        LEFT SIDE-->
+        <!--Панель слева-->
 
         <div class="col-2" style="padding: 0; padding-top: 15px">
             <ul class="nav nav-pills flex-column">
@@ -54,18 +55,18 @@
             </ul>
         </div>
 
-<!--RIGHT SIDE-->
+        <!--Панель справа-->
 
         <div class="col-10 bg-light">
             <div class="tab-content" style="padding-top: 15px; height: 100vh">
 
-<!--                ADMIN PANEL-->
+                <!--Панель админа-->
 
                 <div class="tab-pane fade show active" id="adminPanel">
                     <h2>Admin panel</h2>
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" id = "allUsersTable" href="#allUsers">Users table</a>
+                            <a class="nav-link active" data-toggle="tab" id="allUsersTable" href="#allUsers">Users table</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#newUser">New User</a>
@@ -73,7 +74,7 @@
                     </ul>
                     <div class="tab-content">
 
-<!--                        TABLE-->
+                        <!--Таблица пользователей-->
 
                         <div class="tab-pane fade show active" id="allUsers">
                             <div class="card">
@@ -83,8 +84,8 @@
                                         <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Username</th>
-                                            <th>Password</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
                                             <th>Email</th>
                                             <th>Role</th>
                                             <th>Edit</th>
@@ -98,7 +99,7 @@
                             </div>
                         </div>
 
-<!--                        NEW USER-->
+                        <!--Вкладка для нового пользователя-->
 
                         <div class="tab-pane fade" id="newUser">
                             <div class="form-group">
@@ -109,21 +110,30 @@
                                             <div class="form justify-content-center mx-auto col-5">
                                                 <form id="formNewUser" name="formNewUser">
                                                     <p>
-                                                        <label class="container-fluid" for="newUserUsername"><strong>Username</strong>
-                                                            <input class="form-control" type="text" name="username"
-                                                                   id="newUserUsername"/>
+                                                        <label class="container-fluid" for="newUserFirstName"><strong>First
+                                                            name</strong>
+                                                            <input class="form-control" type="text" name="firstName"
+                                                                   id="newUserFirstName"/>
+                                                        </label>
+                                                    </p>
+                                                    <p>
+                                                        <label class="container-fluid" for="newUserLastName"><strong>Last
+                                                            name</strong>
+                                                            <input class="form-control" type="text" name="lastName"
+                                                                   id="newUserLastName"/>
+                                                        </label>
+                                                    </p>
+                                                    <p>
+                                                        <label class="container-fluid"
+                                                               for="newUserEmail"><strong>Email</strong>
+                                                            <input class="form-control" type="email" name="email"
+                                                                   id="newUserEmail"/>
                                                         </label>
                                                     </p>
                                                     <p>
                                                         <label class="container-fluid" for="newUserPassword"><strong>Password</strong>
-                                                            <input class="form-control" type="text" name="password"
+                                                            <input class="form-control" type="password" name="password"
                                                                    id="newUserPassword"/>
-                                                        </label>
-                                                    </p>
-                                                    <p>
-                                                        <label class="container-fluid" for="newUserEmail"><strong>Email</strong>
-                                                            <input class="form-control" type="email" name="email"
-                                                                   id="newUserEmail"/>
                                                         </label>
                                                     </p>
                                                     <label class="container-fluid"
@@ -133,7 +143,7 @@
 
                                                         </select>
                                                     </label>
-                                                    <button type="submit" class="btn btn-success">Add new user</button>
+                                                    <button type="submit" id="newUserButton" class="btn btn-success">Add new user</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -144,7 +154,7 @@
                     </div>
                 </div>
 
-<!--                USER INFORMATION PAGE-->
+                <!--Панель пользователя-->
 
                 <div class="tab-pane fade" id="userPanel">
                     <h2>User information-page</h2>
@@ -155,8 +165,8 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Username</th>
-                                    <th>Password</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
                                     <th>Email</th>
                                     <th>Role</th>
                                 </tr>
@@ -172,7 +182,7 @@
     </div>
 </div>
 
-<!--EDIT-->
+<!--Модальное окно редактирования пользователя-->
 
 <div class="modal fade" id="edit" tabindex="-1" role="dialog"
      aria-labelledby="editModalLabel" aria-hidden="true">
@@ -194,18 +204,23 @@
                                 </label>
                             </p>
                             <p>
-                                <label for="UsernameEditUser"><strong>Username</strong>
-                                    <input class="form-control" type="text" name="username" id="UsernameEditUser" />
+                                <label for="firstNameEditUser"><strong>First name</strong>
+                                    <input class="form-control" type="text" name="firstName" id="firstNameEditUser" />
                                 </label>
                             </p>
                             <p>
-                                <label for="passwordEditUser"><strong>Password</strong>
-                                    <input class="form-control" type="text" name="password" id="passwordEditUser" />
+                                <label for="lastNameEditUser"><strong>Last name</strong>
+                                    <input class="form-control" type="text" name="lastName" id="lastNameEditUser" />
                                 </label>
                             </p>
                             <p>
                                 <label for="emailEditUser"><strong>Email</strong>
                                     <input class="form-control" type="email" name="email" id="emailEditUser" />
+                                </label>
+                            </p>
+                            <p>
+                                <label for="passwordEditUser"><strong>Password</strong>
+                                    <input class="form-control" type="password" name="password" id="passwordEditUser" />
                                 </label>
                             </p>
                             <label class="container-fluid col-6" for="rolesEditUser"><strong>Role</strong>
@@ -248,13 +263,13 @@
                                 </label>
                             </p>
                             <p>
-                                <label for="usernameDeleteUser"><strong>Username</strong>
-                                    <input class="form-control" type="text" name="firstName" id="usernameDeleteUser" disabled>
+                                <label for="firstNameDeleteUser"><strong>First name</strong>
+                                    <input class="form-control" type="text" name="firstName" id="firstNameDeleteUser" disabled>
                                 </label>
                             </p>
                             <p>
-                                <label for="passwordDeleteUser"><strong>Password</strong>
-                                    <input class="form-control" type="text" name="lastName" id="passwordDeleteUser" disabled>
+                                <label for="lastNameDeleteUser"><strong>Last name</strong>
+                                    <input class="form-control" type="text" name="lastName" id="lastNameDeleteUser" disabled>
                                 </label>
                             </p>
                             <p>
@@ -293,6 +308,8 @@
         integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
         crossorigin="anonymous"></script>
 
-<script type="text/javascript" src="admin.js"></script>
+<!-- JS -->
+
+<script type="text/javascript" src="appAdmin.js"></script>
 </body>
 </html>

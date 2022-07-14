@@ -1,13 +1,14 @@
-package ru.kata.spring.boot_security.demo.restControllers;
+package pp_3_1_4.controller;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
-import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.service.RoleService;
-import ru.kata.spring.boot_security.demo.service.UserService;
+import pp_3_1_4.model.Role;
+import pp_3_1_4.model.User;
+import pp_3_1_4.service.RoleService;
+import pp_3_1_4.service.UserService;
 
 import java.util.List;
 
@@ -15,9 +16,8 @@ import java.util.List;
 @RequestMapping("/api")
 public class AdminRestController {
 
-    private UserService userService;
-
-    private RoleService roleService;
+    private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
     public AdminRestController(UserService userService, RoleService roleService) {
@@ -26,10 +26,10 @@ public class AdminRestController {
     }
 
     @GetMapping("/admin")
+    //возвращаем ResponseEntity<List<Client>>, помимо HTTP статуса, мы вернем еще и тело ответа, которым будет список клиентов.
     public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.findAll();
-        return users
-                != null && !users.isEmpty()
+        final List<User> users = userService.getAllUsers();
+        return users != null && !users.isEmpty()
                 ? new ResponseEntity<>(users, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -42,26 +42,27 @@ public class AdminRestController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/admin/add")
-    public ResponseEntity<User> newUser(@RequestBody User user) {
-        userService.registerNewAccount(user);
+    //@RequestBody - Spring преобразует входящий JSON в объект User
+    @PostMapping("/admin")
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        userService.saveUser(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PatchMapping("/admin/{id}")
+    @PostMapping("/admin/{id}")
     public ResponseEntity<User> updateUser(@RequestBody User user) {
-        userService.editAccount(user);
+        userService.updateUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/admin/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable("id") long id) {
-        userService.deleteById(id);
+        userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/roles")
     public ResponseEntity<List<Role>> getAllRoles() {
-        return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
+        return new ResponseEntity<>(roleService.getRoles(), HttpStatus.OK);
     }
 }
